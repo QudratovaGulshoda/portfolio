@@ -12,7 +12,7 @@ urlpatterns = [
     # URL pattern for listing news items
     # This pattern maps to the NewsListView class view
     path("news", views.NewsListView.as_view()),
-
+    path("contact", views.ContactViewSet.as_view()),
     # URL pattern for serving service tariff data
     # This pattern maps to the ServiceTariffViews class view
     path("service-tariff", views.ServiceTariffViews.as_view()),

@@ -5,9 +5,37 @@ from app.models import News, Contact, ServiceTariff
 from app.serializers import NewsSerializer, ContactSerializer, ServiceTariffSerializer
 
 
-class ContactViewSet(ModelViewSet):
-    queryset = Contact.objects.all()
+from rest_framework import status
+from rest_framework.response import Response
+
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework import generics, permissions
+
+
+class ContactViewSet(generics.CreateAPIView):
     serializer_class = ContactSerializer
+    # queryset = Contact.objects.all()
+    permission_classes = [permissions.AllowAny]
+    def get_object(self):
+        obj = ServiceTariff.objects.all()  # Retrieve all service tariff objects from the database
+        return obj
+
+    def get(self, request):
+        queryset = self.get_object()  # Get the service tariff queryset
+        serialized_data = self.serializer_class(queryset, many=True)  # Serialize the queryset
+
+        return response.Response(
+            data={
+                "success": True,
+                "err_code": 0,
+                "err_msg": "",
+                "data": serialized_data.data  # Include serialized data in the response
+            },
+            status=status.HTTP_200_OK  # Set the HTTP status code to 200 (OK)
+        )
+
+
 
 
 # Define a view for listing news items (GET request)
